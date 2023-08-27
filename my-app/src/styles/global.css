@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700;800;900&display=swap');
+:root {
+    --background: rgb(230, 230, 230);
+    --main: #fff;
+    --boxShadow: 2px 2px 20px #b6b5b5;
+    --textColor: #000;
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    margin: 0;
+    padding: 0;
+    color: var(--textColor);
+}
+#root {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+}
+.wrapper {
+    width: 100%;
+    height: 100%;
+    font-family: 'Montserrat', sans-serif;
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+}
+.container {
+    width: 100%;
+    height: 100%;
+}
+html[data-theme = 'light'] {
+    --background: rgb(230, 230, 230);
+    --main: #fff;
+    --boxShadow: 2px 2px 20px #b6b5b5;
+    --textColor: #000;
+}
+html[data-theme = 'dark'] {
+    --background: #1f212b;
+    --main: #17171b;
+    --boxShadow: 2px 2px 20px #222222;
+    --textColor: #fff;
+}
+
+nav {
+    width: 120px;
+    height: 60%;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    border-radius: 20px;
+    background-color: var(--main);
+    margin-left: 20px;
+    z-index: 10;
+}
+
+nav a {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #a5a5a5; 
+    text-decoration: none;
+    gap: 7px;
+}
+
+nav a.active {
+    color: #01a1c9;
+    transform: scale(1.1);
+}
+
+.window {
+    background-color: var(--background);
+}
+
+.main {
+    background-color: var(--main);
+    box-shadow: var(--boxShadow);
+}
+
+.forecast {
+    background-color: var(--main);
+}
+
+.forecastItem {
+    background-color: var(--background);
+    box-shadow: var(--boxShadow);
+    color: var(--textColor)
+}
+
+.forecastItem:hover {
+    box-shadow: var(--boxShadow);
+}
+.forecastLink {
+    color:var(--textColor);
+}
