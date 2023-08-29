@@ -11,6 +11,12 @@ export interface Day {
     condition?: Condition;
 }
 
+export interface Hour {
+    condition?: Condition;
+    temp_c?: number;
+}
+
+
 
 
 
@@ -22,6 +28,7 @@ export  interface Info {
     pressure_mb?:number;
     feelslike_c?: number;
     day?: Day;
+    hour?: Hour[];
     date?: string;
     condition?: Condition;
 }

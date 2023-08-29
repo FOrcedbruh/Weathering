@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 import { useTheme } from '../hooks/useTheme';
 import Switch from '@mui/material/Switch';
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
-
+import EastIcon from '@mui/icons-material/East';
 
 
 const ForecastSrc: string = 'https://api.weatherapi.com/v1/forecast.json?key=dfed1eda45ca42d2a20143124232608&q=Moscow&days=10&aqi=no&alerts=no';
@@ -21,6 +21,7 @@ const ForecastSrc: string = 'https://api.weatherapi.com/v1/forecast.json?key=dfe
 interface ThisWeather {
     city: Info;
     temp: Info;
+    hours: Info[]
 }
 
 
@@ -29,16 +30,17 @@ interface ForecastWeather {
 }
 
 
+
 // компоненты
 
 
 const Forecast: React.FC<ForecastWeather> = ({articles}) => {
-
+    
     
 
     return (
         <div className={`${style.forecast} forecast`}>
-            {articles.map(article => {return <article key={article.day?.avghumidity} className={`${style.forecastItem} forecastItem`}>
+            {articles.map(article => {return <article key={article.date} className={`${style.forecastItem} forecastItem`}>
                  <Link key={article.date} to={`/${article.date}`} className={`${style.forecastLink} forecastLink`}><p>{article.date}</p> <img src={article.day?.condition?.icon}/><p>{article.day?.condition?.text}</p> <div id={style.forecastTemp}>
                     <ThermostatIcon fontSize='small'/>{article.day?.avgtemp_c}°</div></Link> </article>})}
         </div>
@@ -46,7 +48,12 @@ const Forecast: React.FC<ForecastWeather> = ({articles}) => {
 }
 
 
-const ActualWeather: React.FC<ThisWeather> = ({city, temp}) => {
+
+
+
+const ActualWeather: React.FC<ThisWeather> = ({city, temp, hours}) => {
+
+
 
 
 
@@ -60,6 +67,9 @@ const ActualWeather: React.FC<ThisWeather> = ({city, temp}) => {
                 <article ><AirIcon color='primary'/> {temp.wind_kph} kph</article>
                 <article ><ExploreIcon color='secondary'/> {temp.pressure_mb} mb</article>
             </div>
+            <section className={style.hourlyForecast}>
+                
+            </section>
         </main>
     )
 }
@@ -73,11 +83,13 @@ const Weather: React.FC = () => {
     const [city, setCity] = useState<Info>({});
     const [temp, setTemp] = useState<Info>({});
     const [articles, setArticles] = useState<Info[]>([]);
+    const [hours, setHours] = useState<Info[]>([]);
+
 
     // тема
 
     const {theme, setTheme} = useTheme();
-    const [checked, setChecked] = useState<boolean>(JSON.parse(localStorage.getItem('Theme-Btn') || '') || false);
+    const [checked, setChecked] = useState<boolean>(false);
 
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -97,16 +109,18 @@ const Weather: React.FC = () => {
             setArticles(data.data.forecast.forecastday)
             setCity(data.data.location);
             setTemp(data.data.current);
+            setHours(data.data.forecast.forecastday.hour)
             console.log(data.data);
+            
         })
     }, []);
-
 
 
     return (
         <section className={`${style.weatherWin} window`}>
             <Switch className={style.toggleTheme} checked={checked} onChange={handleChange}/>
-            <ActualWeather city={city} temp={temp}/>
+            <ActualWeather city={city} temp={temp} hours={hours}/>
+            <div className={`${style.anotherWeatherLink} main`}><Link to='/anotherCities'>Weather in other cities</Link><EastIcon color='secondary'/></div>
             <h3>Weather forecast for 10 days</h3>
             <Forecast articles={articles}/>
         </section>
